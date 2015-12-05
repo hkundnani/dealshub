@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="styles/libraries/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/libraries/font-awesome/css/font-awesome.min.css">
+  </head>
+  <body ng-app="dealsApp" ng-controller="dealsDataCtrl">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="header-logo displayib">
+              <img src="images/leaf-and-flames-logo.jpg" alt="Company Logo"/>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="header-info displayib right">
+              <span class="m10">
+                <label>API Hits:</label>
+                <span ng-bind="apiHits.api_hits"></span>
+              </span>
+              <span class="displayib m10">
+                <label >Total Likes:</label>
+                <span ng-bind="getLikesCount()"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <div ng-repeat="deal in deals" class="product-container displayib">
+            <div class="thumbnail image-container">
+               <img ng-src="{{deal.image}}" alt="product image"/>
+               <div class="caption">
+                 <h4>{{deal.name}}</h4>
+                 <div>
+                   <uib-rating ng-model="deal.rating" max="max" readonly="isReadonly"></uib-rating>
+                   <span>({{deal.rating}})</span>
+                 </div>
+                 <div class="price-details">
+                   <span class="fa fa-inr fa-lg" ng-bind="calcFinalPrice(deal.actual_price, deal.discount)"></span>
+                   <span class="fa fa-inr fa-lg" ng-bind="deal.actual_price"></span>
+                   <span>({{deal.discount}} Off)</span>
+                 </div>
+                 <div class="provider">
+                   <span class="fa fa-user"></span>
+                   <label>Provider:</label>
+                   <span ng-bind="deal.provider"></span>
+                 </div>
+                 <a class="btn btn-primary" target="_blank" href="{{deal.link}}">Go to Provider page</a>
+                 <a class="btn btn-default fa fa-thumbs-o-up fa-lg" ng-click="like($index)">
+                   <span class="badge like-count" ng-bind="getLikes($index)"></span>
+                 </a>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/libraries/angular.min.js"></script>
+    <script src="scripts/libraries/angular-resource.min.js"></script>
+    <script src="scripts/libraries/jquery-2.1.4.min.js"></script>
+    <script src="scripts/libraries/ui-bootstrap-tpls-0.14.2.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/deals-data-service.js"></script>
+    <script src="scripts/controllers/deals-data-ctrl.js"></script>
+  </body>
+</html>
